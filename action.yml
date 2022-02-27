@@ -12,6 +12,7 @@ runs:
     - name: Install Open Dylan
       env:
         OD: ${{ inputs.opendylan-version }}
+      shell: bash
       run: |
         echo "Installing Open Dylan..."
         curl -L -o opendylan.tar.bz2 https://github.com/dylan-lang/opendylan/releases/download/v${OD}.0/opendylan-${OD}-x86_64-linux.tar.bz2
