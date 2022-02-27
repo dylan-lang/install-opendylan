@@ -1,0 +1,21 @@
+name: install-opendylan
+description: Install a specific version of Open Dylan
+inputs:
+  opendylan-version:
+    required: true
+    type: string
+    default: 2020.1
+
+runs:
+  using: composite
+  steps:
+    - name: Install Open Dylan
+      env:
+        OD: ${{ inputs.opendylan-version }}
+      run: |
+        echo "Installing Open Dylan..."
+        curl -L -o opendylan.tar.bz2 https://github.com/dylan-lang/opendylan/releases/download/v${OD}.0/opendylan-${OD}-x86_64-linux.tar.bz2
+        tar xfj opendylan.tar.bz2
+        ln -s opendylan-${OD}/bin/dylan-compiler
+        echo -n "Open Dylan "
+        ./dylan-compiler -version
