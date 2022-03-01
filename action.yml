@@ -1,8 +1,8 @@
 name: install-opendylan
 description: Install a specific version of Open Dylan
 inputs:
-  opendylan-version:
-    required: true
+  version:
+    required: false
     type: string
     default: 2020.1
 
@@ -11,7 +11,7 @@ runs:
   steps:
     - name: Install Open Dylan
       env:
-        OD: ${{ inputs.opendylan-version }}
+        OD: ${{ inputs.version }}
       shell: bash
       run: |
         echo "Installing Open Dylan..."
