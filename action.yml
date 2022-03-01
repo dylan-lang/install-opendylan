@@ -17,6 +17,7 @@ runs:
         echo "Installing Open Dylan..."
         curl -L -o opendylan.tar.bz2 https://github.com/dylan-lang/opendylan/releases/download/v${OD}.0/opendylan-${OD}-x86_64-linux.tar.bz2
         tar xfj opendylan.tar.bz2
+        ln -s opendylan-${OD} opendylan
         ln -s opendylan-${OD}/bin/dylan-compiler
         echo -n "Open Dylan "
         ./dylan-compiler -version
