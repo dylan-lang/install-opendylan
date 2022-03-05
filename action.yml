@@ -5,19 +5,24 @@ inputs:
     required: false
     type: string
     default: 2020.1
+  tag:
+    required: false
+    type: string
+    default: v2020.1.0
 
 runs:
   using: composite
   steps:
     - name: Install Open Dylan
       env:
-        OD: ${{ inputs.version }}
+        OD_VERSION: ${{ inputs.version }}
+        OD_TAG: ${{ inputs.tag }}
       shell: bash
       run: |
         echo "Installing Open Dylan..."
-        curl -L -o opendylan.tar.bz2 https://github.com/dylan-lang/opendylan/releases/download/v${OD}.0/opendylan-${OD}-x86_64-linux.tar.bz2
+        curl -L -o opendylan.tar.bz2 https://github.com/dylan-lang/opendylan/releases/download/${OD_TAG}/opendylan-${OD_VERSION}-x86_64-linux.tar.bz2
         tar xfj opendylan.tar.bz2
-        ln -s opendylan-${OD} opendylan
-        ln -s opendylan-${OD}/bin/dylan-compiler
+        ln -s opendylan-${OD_VERSION} opendylan
+        ln -s opendylan-${OD_VERSION}/bin/dylan-compiler
         echo -n "Open Dylan "
         ./dylan-compiler -version
