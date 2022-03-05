@@ -2,36 +2,38 @@
 
 A GitHub Action to install the Open Dylan compiler.
 
-Example:
+To install the latest Open Dylan release:
+
+```yaml
+    - uses: dylan-lang/install-opendylan@v1
+```
+
+To install a specific released version:
 
 ```yaml
     - uses: dylan-lang/install-opendylan@v1
       with:
         version: 2020.1
+        tag: v2020.1.0
 ```
 
-The version is optional and will generally default to the latest release.
+`version` is the version number used in the top-level Open Dylan directory when
+unpacked from the tarball.
 
-Complete job example using the `strings` library:
+`tag` is the exact tag identifying the GitHub release, including the leading
+"v".
 
-```yaml
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: dylan-lang/install-opendylan@v1
+**Important:** This Action must be used **after**
+[actions/checkout@v2](https://github.com/actions/checkout) when using the
+default `path:` (i.e., the current directory) because `actions/checkout@v2`
+deletes everything in the repo directory first.
 
-      - name: Build strings-test-suite
-        run: ./dylan-compiler -build -jobs 3 strings-test-suite
+When this Action has completed two artifacts exist in the current directory:
 
-      - name: Run strings-test-suite
-        run: _build/bin/strings-test-suite
-```
+1.  A symbolic link to the `dylan-compiler` executable.
 
-When this Action has completed two artifacts exist at the top-level in your
-GitHub workspace:
-
-1.  A symbolic link named `opendylan` that points to the Open Dylan
+2.  A symbolic link named `opendylan` that points to the Open Dylan
     installation directory.
 
-2.  A link to the `dylan-compiler` binary.
+See the [hello](https://github.com/cgay/hello) repository for the canonical
+example of how to use this Action.
