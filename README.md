@@ -2,16 +2,17 @@
 
 A GitHub Action to install the Open Dylan compiler.
 
-To install the latest Open Dylan release:
+To install the latest Open Dylan release on Linux or macOS (Windows not yet
+supported):
 
 ```yaml
-    - uses: dylan-lang/install-opendylan@v1
+    - uses: dylan-lang/install-opendylan@v2
 ```
 
 To install a specific released version:
 
 ```yaml
-    - uses: dylan-lang/install-opendylan@v1
+    - uses: dylan-lang/install-opendylan@v2
       with:
         version: 2020.1
         tag: v2020.1.0

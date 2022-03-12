@@ -1,5 +1,5 @@
 name: install-opendylan
-description: Install a specific version of Open Dylan
+description: Install the Open Dylan compiler
 inputs:
   version:
     required: false
@@ -20,7 +20,12 @@ runs:
       shell: bash
       run: |
         echo "Installing Open Dylan..."
-        curl -L -o opendylan.tar.bz2 https://github.com/dylan-lang/opendylan/releases/download/${OD_TAG}/opendylan-${OD_VERSION}-x86_64-linux.tar.bz2
+        env | sort  # debug
+        os=linux
+        if [[ "$(uname -s)" == "Darwin" ]]; then
+          os=darwin
+        fi
+        curl -L -o opendylan.tar.bz2 https://github.com/dylan-lang/opendylan/releases/download/${OD_TAG}/opendylan-${OD_VERSION}-x86_64-${os}.tar.bz2
         tar xfj opendylan.tar.bz2
         ln -s opendylan-${OD_VERSION} opendylan
         ln -s opendylan-${OD_VERSION}/bin/dylan-compiler
