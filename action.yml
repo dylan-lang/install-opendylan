@@ -4,11 +4,11 @@ inputs:
   version:
     required: false
     type: string
-    default: 2020.1
+    default: 2022.1
   tag:
     required: false
     type: string
-    default: v2020.1.0
+    default: v2022.1.0
 
 runs:
   using: composite
@@ -29,5 +29,7 @@ runs:
         tar xfj opendylan.tar.bz2
         ln -s opendylan-${OD_VERSION} opendylan
         ln -s opendylan-${OD_VERSION}/bin/dylan-compiler
+        ln -s opendylan-${OD_VERSION}/bin/dylan
         echo -n "Open Dylan "
         ./dylan-compiler -version
+        ./dylan version
