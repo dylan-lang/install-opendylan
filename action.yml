@@ -39,3 +39,8 @@ runs:
         ./dylan-compiler -version
         echo -n "dylan-tool version: "
         ./dylan version
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
+        # Eventually we can add opendylan/bin to the path instead of creating
+        # links in the current directory, but for now there are too many
+        # non-Dylan programs in opendylan/bin.
+        echo "${PWD}" >> ${GITHUB_PATH}

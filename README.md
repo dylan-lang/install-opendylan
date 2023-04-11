@@ -1,6 +1,7 @@
 # install-opendylan
 
-A GitHub Action to install the Open Dylan compiler.
+A GitHub Action to install the Open Dylan compiler (`dylan-compiler`) and
+`dylan` tool.
 
 To install the latest Open Dylan release on Linux or macOS (Windows not yet
 supported):
@@ -31,17 +32,15 @@ deletes everything in the repo directory first.
 
 When this Action has completed the following artifacts exist:
 
-1.  `${GITHUB_WORKSPACE}/../dylan-compiler` - the Open Dylan compiler.
+1.  A directory containing the `dylan-compiler` and `dylan` executable binaries
+    has been added to the `PATH`.
 
-2.  `${GITHUB_WORKSPACE}/../dylan` - the "dylan-tool" executable.
-
-3.  `${GITHUB_WORKSPACE}/../opendylan` - a symbolic link pointing to the Open
+3.  `${GITHUB_WORKSPACE}/../opendylan` is a symbolic link pointing to the Open
     Dylan installation directory.
 
-**Note:** The above files can usually be referenced simply as `../dylan` et
-al. They are installed outside of `${GITHUB_WORKSPACE}` so that they don't get
-deleted by the "checkout" GitHub action and so that they aren't included by the
-`dylan update` command when generating registry files.
+**Note:** Files are installed outside of `${GITHUB_WORKSPACE}` so that they
+won't be deleted by the "checkout" GitHub action and so that they aren't
+included by the `dylan update` command when generating registry files.
 
 See the [hello](https://github.com/cgay/hello) repository for the canonical
 example of how to use this Action.
