@@ -4,11 +4,11 @@ inputs:
   version:
     required: false
     type: string
-    default: 2022.1
+    default: 2023.1
   tag:
     required: false
     type: string
-    default: v2022.1.0
+    default: v2023.1.0
 
 runs:
   using: composite
