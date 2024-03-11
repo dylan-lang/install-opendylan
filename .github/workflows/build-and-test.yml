@@ -1,0 +1,49 @@
+# To test changes to the install-opendylan Action we choose an arbitrary
+# project to build and test.
+
+name: build-and-test
+
+on:
+  push:
+    # all branches
+  pull_request:
+    branches:
+      - main
+
+  # This enables the Run Workflow button here:
+  # https://github.com/dylan-lang/install-opendylan/actions/workflows/build-and-test.yml
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: dylan-lang/hash-algorithms
+          path: hash-algorithms
+
+      # Use the local checkout of install-opendylan as a GitHub Action.
+      - uses: ./
+
+      - name: Build test suite app
+        run: |
+          cd hash-algorithms
+          dylan update
+          dylan build hash-algorithms-test-suite-app
+
+      - name: Run test suite
+        run: |
+          cd hash-algorithms
+          _build/bin/hash-algorithms-test-suite-app --report surefire --report-file _build/hash-algorithms-tests.xml
+
+      - name: Publish test report
+        if: success() || failure()
+        uses: mikepenz/action-junit-report@v4
+        with:
+          report_paths: '**/_build/*-tests.xml'
+          detailed_summary: true
+          include_passed: true

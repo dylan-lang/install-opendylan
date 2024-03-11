@@ -1,10 +1,6 @@
 name: install-opendylan
-description: Install the Open Dylan compiler
+description: Install the Open Dylan compiler and tools
 inputs:
-  version:
-    required: false
-    type: string
-    default: 2023.1
   tag:
     required: false
     type: string
@@ -15,26 +11,22 @@ runs:
   steps:
     - name: Install Open Dylan
       env:
-        OD_VERSION: ${{ inputs.version }}
         OD_TAG: ${{ inputs.tag }}
       shell: bash
       run: |
         echo "Installing Open Dylan..."
+        od_version=$(echo ${{ inputs.tag }} | sed -En 's/v([0-9]+\.[0-9]+)\.[0-9]+/\1/p')
+        opsys=$(uname -s | tr '[:upper:]' '[:lower:]')
         env | sort  # debug
-        os=linux
-        if [[ "$(uname -s)" == "Darwin" ]]; then
-          os=darwin
-        fi
-        # We don't want to pollute the checkout directory so extract OD into
-        # its parent. ${GITHUB_WORKSPACE} is of the form .../repo-name/repo-name.
-        cd ${GITHUB_WORKSPACE}/..
-        url="https://github.com/dylan-lang/opendylan/releases/download/${OD_TAG}/opendylan-${OD_VERSION}-x86_64-${os}.tar.bz2"
+        url="https://github.com/dylan-lang/opendylan/releases/download/${OD_TAG}/opendylan-${od_version}-x86_64-${opsys}.tar.bz2"
         echo "Downloading from ${url}"
+        mkdir _od
+        cd _od
         curl -L -o opendylan.tar.bz2 ${url}
         tar xfj opendylan.tar.bz2
-        ln -s opendylan-${OD_VERSION} opendylan
-        ln -s opendylan-${OD_VERSION}/bin/dylan-compiler
-        ln -s opendylan-${OD_VERSION}/bin/dylan
+        ln -s opendylan-${od_version} opendylan
+        ln -s opendylan-${od_version}/bin/dylan-compiler
+        ln -s opendylan-${od_version}/bin/dylan
         echo "Compiler: ${PWD}/dylan-compiler"
         echo "dylan-tool: ${PWD}/dylan"
         echo -n "Open Dylan "
