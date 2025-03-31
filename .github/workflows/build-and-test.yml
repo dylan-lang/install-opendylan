@@ -1,5 +1,5 @@
-# To test changes to the install-opendylan Action we choose an arbitrary
-# project to build and test.
+# To test changes to the install-opendylan Action we choose an arbitrary, relatively
+# simple project to build and test.
 
 name: build-and-test
 
@@ -16,7 +16,11 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+
     steps:
 
       - uses: actions/checkout@v4
@@ -29,7 +33,7 @@ jobs:
       # Use the local checkout of install-opendylan as a GitHub Action.
       - uses: ./
 
-      - name: Build test suite app
+      - name: Build test suite
         run: |
           cd hash-algorithms
           dylan update
