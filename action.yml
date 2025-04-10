@@ -20,15 +20,16 @@ runs:
         env | sort  # debug
         url="https://github.com/dylan-lang/opendylan/releases/download/${OD_TAG}/opendylan-${od_version}-x86_64-${opsys}.tar.bz2"
         echo "Downloading from ${url}"
-        mkdir _od
-        cd _od
+        # Install outside the workspace directory so Deft doesn't find the Open Dylan LID files.
+        mkdir ../_od
+        cd ../_od
         curl -L -o opendylan.tar.bz2 ${url}
         tar xfj opendylan.tar.bz2
         ln -s opendylan-${od_version} opendylan
         ln -s opendylan-${od_version}/bin/dylan-compiler
         ln -s opendylan-${od_version}/bin/dylan
         echo "Compiler: ${PWD}/dylan-compiler"
-        echo "dylan-tool: ${PWD}/dylan"
+        echo "deft: ${PWD}/dylan"
         echo -n "Open Dylan "
         ./dylan-compiler -version
         echo -n "dylan version: "
