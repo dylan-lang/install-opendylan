@@ -22,10 +22,9 @@ jobs:
         os: [macos-latest, ubuntu-latest]
 
     steps:
+      - uses: actions/checkout@v7
 
-      - uses: actions/checkout@v4
-
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: dylan-lang/hash-algorithms
           path: hash-algorithms
@@ -33,21 +32,20 @@ jobs:
       # Use the local checkout of install-opendylan as a GitHub Action.
       - uses: ./
 
-      - name: Build test suite
+      - name: Update workspace
         run: |
           cd hash-algorithms
-          dylan update
-          dylan build hash-algorithms-test-suite-app
+          deft update
 
       - name: Run test suite
         run: |
           cd hash-algorithms
-          _build/bin/hash-algorithms-test-suite-app --report surefire --report-file _build/hash-algorithms-tests.xml
+          deft test -- --report surefire --report-file _build/test-output.xml
 
       - name: Publish test report
         if: success() || failure()
-        uses: mikepenz/action-junit-report@v4
+        uses: mikepenz/action-junit-report@v6
         with:
-          report_paths: '**/_build/*-tests.xml'
+          report_paths: '**/_build/test-output.xml'
           detailed_summary: true
           include_passed: true
