@@ -4,7 +4,7 @@ inputs:
   tag:
     required: false
     type: string
-    default: v2026.1.0
+    default: v2026.2.0
 
 runs:
   using: composite
@@ -16,9 +16,10 @@ runs:
       run: |
         echo "Installing Open Dylan..."
         od_version=$(echo ${{ inputs.tag }} | sed -En 's/v([0-9]+\.[0-9]+)\.[0-9]+/\1/p')
+        arch=$(uname -m | sed 's/arm64/aarch64/')
         opsys=$(uname -s | tr '[:upper:]' '[:lower:]')
         env | sort  # debug
-        url="https://github.com/dylan-lang/opendylan/releases/download/${OD_TAG}/opendylan-${od_version}-x86_64-${opsys}.tar.bz2"
+        url="https://github.com/dylan-lang/opendylan/releases/download/${OD_TAG}/opendylan-${od_version}-${arch}-${opsys}.tar.bz2"
         echo "Downloading from ${url}"
         # Install outside the workspace directory so Deft doesn't find the Open Dylan LID files.
         mkdir ../_od
